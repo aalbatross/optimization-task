@@ -3,6 +3,11 @@ package org.optimization.service.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+/**
+ * 
+ * Datastructure representing the timestamp info of various status of task.
+ *
+ */
 public class Timestamps implements Serializable {
   /** */
   private static final long serialVersionUID = 1L;

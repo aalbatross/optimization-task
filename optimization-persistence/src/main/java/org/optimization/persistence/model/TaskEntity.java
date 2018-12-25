@@ -12,6 +12,11 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * 
+ * Definition of Task represented in db.
+ *
+ */
 @Entity(name = "Task")
 @Table(name = "task")
 public class TaskEntity {

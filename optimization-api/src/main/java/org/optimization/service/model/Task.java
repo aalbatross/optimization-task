@@ -2,6 +2,11 @@ package org.optimization.service.model;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * Data structure displaying task, there status and timestamps.
+ *
+ */
 public class Task implements Serializable {
 
   /** */
@@ -24,7 +29,7 @@ public class Task implements Serializable {
     return task;
   }
 
-  /** @param taskId the taskId to set */
+  /** @param task the taskId to set */
   public void setTask(String task) {
     this.task = task;
   }

@@ -2,7 +2,11 @@ package org.optimization.service.model;
 
 import java.io.Serializable;
 import java.util.List;
-
+/**
+ * Data Structure defining Problem.
+ * 
+ *
+ */
 public class Problem implements Serializable {
 
   /** */

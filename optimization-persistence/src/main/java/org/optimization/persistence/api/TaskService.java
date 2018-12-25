@@ -8,6 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * 
+ * Data access layer for task services.
+ *
+ */
 @Repository
 public interface TaskService extends CrudRepository<TaskEntity, String> {
 

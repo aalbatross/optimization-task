@@ -71,6 +71,10 @@ public class App implements CommandLineRunner {
     SpringApplication.run(App.class, args);
   }
 
+  /**
+   * executes the kafka message from the topic in buffer and executes solver {@linkplain KnapsackSolver} on each of them.
+   * @param buffer
+   */
   @Transactional
   void executeBatch(List<ConsumerRecord<String, String>> buffer) {
     buffer.forEach(
@@ -106,6 +110,9 @@ public class App implements CommandLineRunner {
         });
   }
 
+  /**
+   * Opens up Kafka consumer on a particular topic and batch them before executing.
+   */
   @Override
   public void run(String... args) throws Exception {
     LOG.info("Properties: {}", kafkaProps());

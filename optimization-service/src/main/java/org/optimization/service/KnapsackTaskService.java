@@ -18,6 +18,7 @@ import org.optimization.service.model.Solution;
 import org.optimization.service.model.Task;
 import org.optimization.service.model.Timestamps;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,8 +27,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 
+ * Definition of Task related service for Knapsack Optimiser Service. 
+ *
+ */
 @RestController
 public class KnapsackTaskService implements KnapsackTask {
+
+  @Value("{$topic}")
+  private String topic;
 
   @Autowired private TaskService taskService;
 
@@ -80,7 +89,7 @@ public class KnapsackTaskService implements KnapsackTask {
     task = taskService.save(task);
 
     try {
-      template.send("foo", task.getId()).get(2, TimeUnit.SECONDS);
+      template.send(topic, task.getId()).get(2, TimeUnit.SECONDS);
     } catch (InterruptedException | ExecutionException | TimeoutException e) {
       throw new SubmitFailedException(e.getMessage());
     }

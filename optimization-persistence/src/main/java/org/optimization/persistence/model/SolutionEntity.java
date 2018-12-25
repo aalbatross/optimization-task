@@ -12,6 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * 
+ * Definition of solution represented in db.
+ *
+ */
 @Entity(name = "Solution")
 @Table(name = "solution")
 public class SolutionEntity {

@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * Data structure showing status of various tasks.
+ *
+ */
 public class Tasks implements Serializable {
   /** */
   private static final long serialVersionUID = 1L;

@@ -2,6 +2,11 @@ package org.optimization.service.model;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * Data structure of the Solution class presented to users when task is completed.
+ *
+ */
 public class Solution implements Serializable {
   /** */
   private static final long serialVersionUID = 1L;

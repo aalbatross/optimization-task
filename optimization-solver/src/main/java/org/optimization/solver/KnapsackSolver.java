@@ -6,10 +6,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * Solver solving Knapsack Problem.
+ *
+ */
 public class KnapsackSolver {
 
   private static final Logger LOG = LoggerFactory.getLogger(KnapsackSolver.class);
@@ -81,7 +85,10 @@ public class KnapsackSolver {
     }
   }
 
-  // Returns the maximum value that can be put in a knapsack of capacity W
+  /**
+   * returns the list of indexes which fits the knapsacks solution. 
+   * @return list of indexes of selected items for knapsack.
+   */
   public List<Integer> solve() {
     LOG.info(
         "Solving knapsack problem with capacity: {}, wts: {} and values: {}",

@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 
+ * Definition of Admin related task for Knapsack Optimiser Service. 
+ *
+ */
 @RestController
 public class AdminTaskService implements AdminTask {
 
