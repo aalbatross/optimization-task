@@ -1,9 +1,6 @@
 package org.optimization.persistence.model;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,71 +24,6 @@ public class TaskEntity {
     COMPLETED
   }
 
-  @Embeddable
-  public static class Timestamps {
-
-    private Date submitted;
-    private Date started;
-    private Date completed;
-
-    public Timestamps() {}
-
-    public Timestamps(Date submitted, Date started, Date completed) {
-      this.submitted = submitted;
-      this.started = started;
-      this.completed = completed;
-    }
-
-    /** @return the submitted */
-    public Date getSubmitted() {
-      return submitted;
-    }
-
-    /** @param submitted the submitted to set */
-    public void setSubmitted(Date submitted) {
-      this.submitted = submitted;
-    }
-
-    /** @return the started */
-    public Date getStarted() {
-      return started;
-    }
-
-    /** @param started the started to set */
-    public void setStarted(Date started) {
-      this.started = started;
-    }
-
-    /** @return the completed */
-    public Date getCompleted() {
-      return completed;
-    }
-
-    /** @param completed the completed to set */
-    public void setCompleted(Date completed) {
-      this.completed = completed;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-      StringBuilder builder = new StringBuilder();
-      builder
-          .append("Timestamps [submitted=")
-          .append(submitted)
-          .append(", started=")
-          .append(started)
-          .append(", completed=")
-          .append(completed)
-          .append("]");
-      return builder.toString();
-    }
-  }
-
   @Id
   @GeneratedValue(generator = "uuid")
   @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -100,7 +32,7 @@ public class TaskEntity {
   @Enumerated(EnumType.STRING)
   private Status status;
 
-  private Timestamps timestamps;
+  private TimestampsAssociation timestamps;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "problem_id")
@@ -131,12 +63,12 @@ public class TaskEntity {
   }
 
   /** @return the timestamps */
-  public Timestamps getTimestamps() {
+  public TimestampsAssociation getTimestamps() {
     return timestamps;
   }
 
   /** @param timestamps the timestamps to set */
-  public void setTimestamps(Timestamps timestamps) {
+  public void setTimestamps(TimestampsAssociation timestamps) {
     this.timestamps = timestamps;
   }
 
@@ -184,7 +116,7 @@ public class TaskEntity {
   public static class Builder {
     private String id;
     private Status status;
-    private Timestamps timestamps;
+    private TimestampsAssociation timestamps;
     private ProblemEntity problem;
     private SolutionEntity solution;
 
@@ -198,7 +130,7 @@ public class TaskEntity {
       return this;
     }
 
-    public Builder timestamps(Timestamps timestamps) {
+    public Builder timestamps(TimestampsAssociation timestamps) {
       this.timestamps = timestamps;
       return this;
     }

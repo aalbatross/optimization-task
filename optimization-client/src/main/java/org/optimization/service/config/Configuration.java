@@ -2,6 +2,7 @@ package org.optimization.service.config;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 public class Configuration {
@@ -19,10 +20,17 @@ public class Configuration {
     Configuration config = new Configuration();
     File newFile = new File(filePath);
     try {
-      if (newFile.exists()) config.props.load(new FileInputStream(newFile));
-      else config.props.load(new FileInputStream(config.file));
-    } catch (Exception ex) {
-      throw new RuntimeException("Cannot load " + newFile.getAbsolutePath(), ex);
+      if (newFile.exists()) {
+        try (FileInputStream fis = new FileInputStream(newFile); ) {
+          config.props.load(fis);
+        }
+      } else {
+        try (FileInputStream fis = new FileInputStream(config.file); ) {
+          config.props.load(fis);
+        }
+      }
+    } catch (IOException ex) {
+      throw new RuntimeException("Cannot load properties", ex);
     }
     return config;
   }

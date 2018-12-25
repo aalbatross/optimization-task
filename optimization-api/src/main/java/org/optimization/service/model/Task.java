@@ -1,7 +1,6 @@
 package org.optimization.service.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Task implements Serializable {
 
@@ -14,68 +13,6 @@ public class Task implements Serializable {
     SUBMITTED,
     STARTED,
     COMPLETED
-  }
-
-  public static class Timestamps {
-    private Date submitted;
-    private Date started;
-    private Date completed;
-
-    public Timestamps() {}
-
-    public Timestamps(Date submitted, Date started, Date completed) {
-      super();
-      this.submitted = submitted;
-      this.started = started;
-      this.completed = completed;
-    }
-
-    /** @return the submitted */
-    public Date getSubmitted() {
-      return submitted;
-    }
-
-    /** @param submitted the submitted to set */
-    public void setSubmitted(Date submitted) {
-      this.submitted = submitted;
-    }
-
-    /** @return the started */
-    public Date getStarted() {
-      return started;
-    }
-
-    /** @param started the started to set */
-    public void setStarted(Date started) {
-      this.started = started;
-    }
-
-    /** @return the completed */
-    public Date getCompleted() {
-      return completed;
-    }
-
-    /** @param completed the completed to set */
-    public void setCompleted(Date completed) {
-      this.completed = completed;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-      StringBuilder builder = new StringBuilder();
-      builder
-          .append("Timestamps [submitted=")
-          .append(submitted)
-          .append(", started=")
-          .append(started)
-          .append(", completed=")
-          .append(completed)
-          .append("]");
-      return builder.toString();
-    }
   }
 
   private String task;

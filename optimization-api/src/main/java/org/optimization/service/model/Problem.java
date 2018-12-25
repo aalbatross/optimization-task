@@ -1,8 +1,12 @@
 package org.optimization.service.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Problem {
+public class Problem implements Serializable {
+
+  /** */
+  private static final long serialVersionUID = 1L;
 
   private Integer capacity;
   private List<Integer> weights;

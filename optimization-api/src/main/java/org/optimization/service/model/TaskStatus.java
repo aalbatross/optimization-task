@@ -1,8 +1,13 @@
 package org.optimization.service.model;
 
+import java.io.Serializable;
+
 import org.optimization.service.model.Task.Status;
 
-public class TaskStatus {
+public class TaskStatus implements Serializable {
+  /** */
+  private static final long serialVersionUID = 1L;
+
   private String task;
   private Status status;
 

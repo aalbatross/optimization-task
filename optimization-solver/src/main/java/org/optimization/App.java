@@ -1,9 +1,9 @@
 package org.optimization;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootApplication
 public class App implements CommandLineRunner {
@@ -48,6 +49,9 @@ public class App implements CommandLineRunner {
   @Value("${value.deserializer}")
   private String valueDeserializer;
 
+  @Value("${retryOnFailure}")
+  private int retryOnFailure;
+
   private Properties kafkaProps() {
     Properties props = new Properties();
     props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -58,7 +62,7 @@ public class App implements CommandLineRunner {
     return props;
   }
 
-  public static Logger LOG = LoggerFactory.getLogger(App.class);
+  public static final Logger LOG = LoggerFactory.getLogger(App.class);
 
   @Autowired TaskService taskService;
 
@@ -67,6 +71,7 @@ public class App implements CommandLineRunner {
     SpringApplication.run(App.class, args);
   }
 
+  @Transactional
   void executeBatch(List<ConsumerRecord<String, String>> buffer) {
     buffer.forEach(
         record -> {
@@ -75,10 +80,8 @@ public class App implements CommandLineRunner {
           TaskEntity task =
               taskService
                   .findById(taskId)
-                  .orElseThrow(
-                      () ->
-                          new RuntimeException(
-                              String.format("%s task is deleted or cancelled", taskId)));
+                  .orElseThrow(() -> new RuntimeException(taskId + " task not found or deleted"));
+
           ProblemEntity problem = task.getProblem();
           int capacity = problem.getCapacity();
           List<Integer> weights = problem.getWeights();
@@ -90,11 +93,11 @@ public class App implements CommandLineRunner {
                   .withValues(values)
                   .build();
           task.setStatus(TaskEntity.Status.STARTED);
-          task.getTimestamps().setStarted(new Date());
+          task.getTimestamps().setStarted(Instant.now());
           task = taskService.save(task);
 
           List<Integer> indexes = solver.solve();
-          task.getTimestamps().setCompleted(new Date());
+          task.getTimestamps().setCompleted(Instant.now());
           SolutionEntity solution = new SolutionEntity(indexes, solver.timeElapsed());
           task.setSolution(solution);
           task.setStatus(TaskEntity.Status.COMPLETED);

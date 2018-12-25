@@ -1,6 +1,7 @@
 package org.optimization.service;
 
-import java.util.Date;
+import java.time.Instant;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -8,15 +9,17 @@ import java.util.concurrent.TimeoutException;
 import org.optimization.persistence.api.TaskService;
 import org.optimization.persistence.model.ProblemEntity;
 import org.optimization.persistence.model.TaskEntity;
+import org.optimization.persistence.model.TimestampsAssociation;
 import org.optimization.service.exception.SubmitFailedException;
 import org.optimization.service.exception.TaskNotFoundException;
 import org.optimization.service.model.Problem;
 import org.optimization.service.model.Result;
 import org.optimization.service.model.Solution;
 import org.optimization.service.model.Task;
-import org.optimization.service.model.Task.Timestamps;
+import org.optimization.service.model.Timestamps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,10 +37,16 @@ public class KnapsackTaskService implements KnapsackTask {
   public Task taskStatus(@PathVariable(name = "id") String taskId) {
     TaskEntity task = taskService.findById(taskId).orElseThrow(TaskNotFoundException::new);
     Timestamps ts =
-        new Timestamps(
-            task.getTimestamps().getSubmitted(),
-            task.getTimestamps().getStarted(),
-            task.getTimestamps().getCompleted());
+        Optional.ofNullable(task.getTimestamps())
+            .map(
+                tsa ->
+                    new Timestamps.Builder()
+                        .submitted(tsa.getSubmitted())
+                        .started(tsa.getStarted())
+                        .completed(tsa.getCompleted())
+                        .build())
+            .orElse(new Timestamps.Builder().build());
+
     return new Task.Builder()
         .task(task.getId())
         .status(Task.Status.valueOf(task.getStatus().name()))
@@ -58,6 +67,7 @@ public class KnapsackTaskService implements KnapsackTask {
     return new Solution.Builder().task(task.getId()).problem(problem).solution(result).build();
   }
 
+  @Transactional
   @RequestMapping(value = "/knapsack/tasks", method = RequestMethod.POST)
   public Task createTask(@RequestBody Problem problem) {
     ProblemEntity pb =
@@ -75,17 +85,22 @@ public class KnapsackTaskService implements KnapsackTask {
       throw new SubmitFailedException(e.getMessage());
     }
     task.setStatus(TaskEntity.Status.SUBMITTED);
-    task.setTimestamps(new TaskEntity.Timestamps(new Date(), null, null));
+    task.setTimestamps(new TimestampsAssociation.Builder().submitted(Instant.now()).build());
     task = taskService.save(task);
-    Timestamps tstamp =
-        new Timestamps(
-            task.getTimestamps().getSubmitted(),
-            task.getTimestamps().getStarted(),
-            task.getTimestamps().getCompleted());
+    Timestamps ts =
+        Optional.ofNullable(task.getTimestamps())
+            .map(
+                tsa ->
+                    new Timestamps.Builder()
+                        .submitted(tsa.getSubmitted())
+                        .started(tsa.getStarted())
+                        .completed(tsa.getCompleted())
+                        .build())
+            .orElse(new Timestamps.Builder().build());
     return new Task.Builder()
         .task(task.getId())
         .status(Task.Status.valueOf(task.getStatus().name()))
-        .timestamps(tstamp)
+        .timestamps(ts)
         .build();
   }
 }

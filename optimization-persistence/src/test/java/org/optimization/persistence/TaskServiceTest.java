@@ -1,8 +1,8 @@
 package org.optimization.persistence;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,10 +10,9 @@ import org.optimization.persistence.api.TaskService;
 import org.optimization.persistence.model.ProblemEntity;
 import org.optimization.persistence.model.TaskEntity;
 import org.optimization.persistence.model.TaskEntity.Status;
-import org.optimization.persistence.model.TaskEntity.Timestamps;
+import org.optimization.persistence.model.TimestampsAssociation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testng.Assert;
@@ -21,8 +20,6 @@ import org.testng.Assert;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class TaskServiceTest {
-
-  @Autowired private TestEntityManager entityManager;
 
   @Autowired private TaskService taskService;
 
@@ -32,7 +29,7 @@ public class TaskServiceTest {
     TaskEntity task =
         new TaskEntity.Builder()
             .status(Status.SUBMITTED)
-            .timestamps(new Timestamps(new Date(), null, null))
+            .timestamps(new TimestampsAssociation.Builder().submitted(Instant.now()).build())
             .problem(
                 new ProblemEntity.Builder()
                     .capacity(30)
@@ -53,7 +50,7 @@ public class TaskServiceTest {
     TaskEntity task =
         new TaskEntity.Builder()
             .status(Status.SUBMITTED)
-            .timestamps(new Timestamps(new Date(), null, null))
+            .timestamps(new TimestampsAssociation.Builder().submitted(Instant.now()).build())
             .problem(
                 new ProblemEntity.Builder()
                     .capacity(30)

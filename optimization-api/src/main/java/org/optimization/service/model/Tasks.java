@@ -1,9 +1,13 @@
 package org.optimization.service.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tasks {
+public class Tasks implements Serializable {
+  /** */
+  private static final long serialVersionUID = 1L;
+
   private List<String> submitted = new ArrayList<>();
   private List<String> started = new ArrayList<>();
   private List<String> completed = new ArrayList<>();

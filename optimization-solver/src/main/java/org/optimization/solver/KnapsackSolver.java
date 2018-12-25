@@ -1,5 +1,6 @@
 package org.optimization.solver;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -70,10 +71,13 @@ public class KnapsackSolver {
     }
   }
 
-  private static class WrapperComparator implements Comparator<Wrapper> {
+  private static class WrapperComparator implements Comparator<Wrapper>, Serializable {
+    /** */
+    private static final long serialVersionUID = 1L;
+
     @Override
     public int compare(Wrapper o1, Wrapper o2) {
-      return Double.valueOf(o2.valPerWt).compareTo(Double.valueOf(o1.valPerWt));
+      return Double.compare(o2.valPerWt, o1.valPerWt);
     }
   }
 
