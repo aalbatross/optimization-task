@@ -1,0 +1,26 @@
+version: "3.3"
+
+services:
+ kafka:
+    image: aalbatross/kafka-single:1.0
+    ports:
+      - "9092:9092"
+      - "2181:2181"
+    command: /bin/bash /kafka/kafka_2.11-2.0.0/exec.sh
+    
+ db:
+    image: postgres:10.6
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+      - "5432:5432"
+
+ taskservice:
+  build: optimization-service/.
+  image: optimization-service:0.0.1
+  ports:
+   - "8080:8080"
+  
+ tasksolver:
+   build: optimization-solver/.
+   image: optimization-solver:0.0.1
