@@ -10,6 +10,7 @@ import org.optimization.persistence.api.TaskService;
 import org.optimization.persistence.model.ProblemEntity;
 import org.optimization.persistence.model.TaskEntity;
 import org.optimization.persistence.model.TimestampsAssociation;
+import org.optimization.service.exception.InvalidKnapsackProblem;
 import org.optimization.service.exception.SubmitFailedException;
 import org.optimization.service.exception.TaskNotFoundException;
 import org.optimization.service.model.Problem;
@@ -17,6 +18,9 @@ import org.optimization.service.model.Result;
 import org.optimization.service.model.Solution;
 import org.optimization.service.model.Task;
 import org.optimization.service.model.Timestamps;
+import org.optimization.service.model.validation.ProblemValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -30,6 +34,8 @@ import org.springframework.web.bind.annotation.RestController;
 /** Definition of Task related service for Knapsack Optimiser Service. */
 @RestController
 public class KnapsackTaskService implements KnapsackTask {
+
+  private static final Logger LOG = LoggerFactory.getLogger(KnapsackTaskService.class);
 
   @Value("${topic}")
   private String topic;
@@ -75,6 +81,12 @@ public class KnapsackTaskService implements KnapsackTask {
   @Transactional
   @RequestMapping(value = "/knapsack/tasks", method = RequestMethod.POST)
   public Task createTask(@RequestBody Problem problem) {
+    ProblemValidator validator = ProblemValidator.create(problem);
+    if (!validator.isValid()) {
+      LOG.info("Knapsack problem has issues {}, due to {}", problem, validator.issues());
+      throw new InvalidKnapsackProblem(validator.issues());
+    }
+
     ProblemEntity pb =
         new ProblemEntity.Builder()
             .capacity(problem.getCapacity())
@@ -90,7 +102,8 @@ public class KnapsackTaskService implements KnapsackTask {
       throw new SubmitFailedException(e.getMessage());
     }
     task.setStatus(TaskEntity.Status.SUBMITTED);
-    task.setTimestamps(new TimestampsAssociation.Builder().submitted(Instant.now()).build());
+    task.setTimestamps(
+        new TimestampsAssociation.Builder().submitted(Instant.now().getEpochSecond()).build());
     task = taskService.save(task);
     Timestamps ts =
         Optional.ofNullable(task.getTimestamps())

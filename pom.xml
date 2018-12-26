@@ -117,5 +117,6 @@
 		<module>optimization-service</module>
 		<module>optimization-client</module>
 		<module>optimization-solver</module>
+		<module>integration-test</module>
 	</modules>
 </project>

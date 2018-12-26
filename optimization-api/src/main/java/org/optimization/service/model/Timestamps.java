@@ -1,44 +1,45 @@
 package org.optimization.service.model;
 
 import java.io.Serializable;
-import java.time.Instant;
 
 /** Datastructure representing the timestamp info of various status of task. */
 public class Timestamps implements Serializable {
   /** */
   private static final long serialVersionUID = 1L;
 
-  private Instant submitted;
-  private Instant started;
-  private Instant completed;
+  public Timestamps() {}
+
+  private Long submitted;
+  private Long started;
+  private Long completed;
 
   /** @return the submitted */
-  public Instant getSubmitted() {
+  public Long getSubmitted() {
     return submitted;
   }
 
   /** @param submitted the submitted to set */
-  public void setSubmitted(Instant submitted) {
+  public void setSubmitted(Long submitted) {
     this.submitted = submitted;
   }
 
   /** @return the started */
-  public Instant getStarted() {
+  public Long getStarted() {
     return started;
   }
 
   /** @param started the started to set */
-  public void setStarted(Instant started) {
+  public void setStarted(Long started) {
     this.started = started;
   }
 
   /** @return the completed */
-  public Instant getCompleted() {
+  public Long getCompleted() {
     return completed;
   }
 
   /** @param completed the completed to set */
-  public void setCompleted(Instant completed) {
+  public void setCompleted(Long completed) {
     this.completed = completed;
   }
 
@@ -60,21 +61,21 @@ public class Timestamps implements Serializable {
   }
 
   public static class Builder {
-    private Instant submitted;
-    private Instant started;
-    private Instant completed;
+    private Long submitted;
+    private Long started;
+    private Long completed;
 
-    public Builder submitted(Instant submitted) {
+    public Builder submitted(Long submitted) {
       this.submitted = submitted;
       return this;
     }
 
-    public Builder started(Instant started) {
+    public Builder started(Long started) {
       this.started = started;
       return this;
     }
 
-    public Builder completed(Instant completed) {
+    public Builder completed(Long completed) {
       this.completed = completed;
       return this;
     }

@@ -95,11 +95,11 @@ public class App implements CommandLineRunner {
                   .withValues(values)
                   .build();
           task.setStatus(TaskEntity.Status.STARTED);
-          task.getTimestamps().setStarted(Instant.now());
+          task.getTimestamps().setStarted(Instant.now().getEpochSecond());
           task = taskService.save(task);
 
           List<Integer> indexes = solver.solve();
-          task.getTimestamps().setCompleted(Instant.now());
+          task.getTimestamps().setCompleted(Instant.now().getEpochSecond());
           SolutionEntity solution = new SolutionEntity(indexes, solver.timeElapsed());
           task.setSolution(solution);
           task.setStatus(TaskEntity.Status.COMPLETED);

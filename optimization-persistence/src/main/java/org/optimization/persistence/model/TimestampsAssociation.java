@@ -1,46 +1,44 @@
 package org.optimization.persistence.model;
 
-import java.time.Instant;
-
 import javax.persistence.Embeddable;
 
 /** Data representation of timestamps used in task entity {@linkplain TaskEntity}. */
 @Embeddable
 public class TimestampsAssociation {
 
-  private Instant submitted;
-  private Instant started;
-  private Instant completed;
+  private Long submitted;
+  private Long started;
+  private Long completed;
 
   public TimestampsAssociation() {}
 
   /** @return the submitted */
-  public Instant getSubmitted() {
+  public Long getSubmitted() {
     return submitted;
   }
 
   /** @param submitted the submitted to set */
-  public void setSubmitted(Instant submitted) {
+  public void setSubmitted(Long submitted) {
     this.submitted = submitted;
   }
 
   /** @return the started */
-  public Instant getStarted() {
+  public Long getStarted() {
     return started;
   }
 
   /** @return the completed */
-  public Instant getCompleted() {
+  public Long getCompleted() {
     return completed;
   }
 
   /** @param completed the completed to set */
-  public void setCompleted(Instant completed) {
+  public void setCompleted(Long completed) {
     this.completed = completed;
   }
 
   /** @param started the started to set */
-  public void setStarted(Instant started) {
+  public void setStarted(Long started) {
     this.started = started;
   }
 
@@ -64,21 +62,21 @@ public class TimestampsAssociation {
   }
 
   public static class Builder {
-    private Instant submitted;
-    private Instant started;
-    private Instant completed;
+    private Long submitted;
+    private Long started;
+    private Long completed;
 
-    public Builder submitted(Instant submitted) {
+    public Builder submitted(Long submitted) {
       this.submitted = submitted;
       return this;
     }
 
-    public Builder started(Instant started) {
+    public Builder started(Long started) {
       this.started = started;
       return this;
     }
 
-    public Builder completed(Instant completed) {
+    public Builder completed(Long completed) {
       this.completed = completed;
       return this;
     }

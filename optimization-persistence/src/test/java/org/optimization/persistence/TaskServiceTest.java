@@ -32,7 +32,10 @@ public class TaskServiceTest {
     TaskEntity task =
         new TaskEntity.Builder()
             .status(Status.SUBMITTED)
-            .timestamps(new TimestampsAssociation.Builder().submitted(Instant.now()).build())
+            .timestamps(
+                new TimestampsAssociation.Builder()
+                    .submitted(Instant.now().getEpochSecond())
+                    .build())
             .problem(
                 new ProblemEntity.Builder()
                     .capacity(30)
@@ -53,7 +56,10 @@ public class TaskServiceTest {
     TaskEntity task =
         new TaskEntity.Builder()
             .status(Status.SUBMITTED)
-            .timestamps(new TimestampsAssociation.Builder().submitted(Instant.now()).build())
+            .timestamps(
+                new TimestampsAssociation.Builder()
+                    .submitted(Instant.now().getEpochSecond())
+                    .build())
             .problem(
                 new ProblemEntity.Builder()
                     .capacity(30)
@@ -100,7 +106,10 @@ public class TaskServiceTest {
       TaskEntity task =
           new TaskEntity.Builder()
               .status(status)
-              .timestamps(new TimestampsAssociation.Builder().submitted(Instant.now()).build())
+              .timestamps(
+                  new TimestampsAssociation.Builder()
+                      .submitted(Instant.now().getEpochSecond())
+                      .build())
               .problem(
                   new ProblemEntity.Builder()
                       .capacity(30)

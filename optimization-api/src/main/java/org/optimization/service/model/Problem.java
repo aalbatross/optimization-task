@@ -67,4 +67,35 @@ public class Problem implements Serializable {
         .append("]");
     return builder.toString();
   }
+
+  public static class Builder {
+    private Integer capacity;
+    private List<Integer> weights;
+    private List<Integer> values;
+
+    public Builder capacity(Integer capacity) {
+      this.capacity = capacity;
+      return this;
+    }
+
+    public Builder weights(List<Integer> weights) {
+      this.weights = weights;
+      return this;
+    }
+
+    public Builder values(List<Integer> values) {
+      this.values = values;
+      return this;
+    }
+
+    public Problem build() {
+      return new Problem(this);
+    }
+  }
+
+  private Problem(Builder builder) {
+    this.capacity = builder.capacity;
+    this.weights = builder.weights;
+    this.values = builder.values;
+  }
 }
