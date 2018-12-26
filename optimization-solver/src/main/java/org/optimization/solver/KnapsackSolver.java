@@ -6,14 +6,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * 
- * Solver solving Knapsack Problem.
- *
- */
+/** Solver solving Knapsack Problem. */
 public class KnapsackSolver {
 
   private static final Logger LOG = LoggerFactory.getLogger(KnapsackSolver.class);
@@ -86,7 +83,8 @@ public class KnapsackSolver {
   }
 
   /**
-   * returns the list of indexes which fits the knapsacks solution. 
+   * returns the list of indexes which fits the knapsacks solution.
+   *
    * @return list of indexes of selected items for knapsack.
    */
   public List<Integer> solve() {

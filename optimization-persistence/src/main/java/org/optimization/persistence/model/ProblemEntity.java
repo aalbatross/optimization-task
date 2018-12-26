@@ -12,11 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-/**
- * 
- * Definition of problem represented in db.
- *
- */
+
+/** Definition of problem represented in db. */
 @Entity(name = "Problem")
 @Table(name = "problem")
 public class ProblemEntity {

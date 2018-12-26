@@ -2,11 +2,7 @@ package org.optimization.service.model;
 
 import java.io.Serializable;
 
-/**
- * 
- * Data structure displaying task, there status and timestamps.
- *
- */
+/** Data structure displaying task, there status and timestamps. */
 public class Task implements Serializable {
 
   /** */

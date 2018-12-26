@@ -27,15 +27,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 
- * Definition of Task related service for Knapsack Optimiser Service. 
- *
- */
+/** Definition of Task related service for Knapsack Optimiser Service. */
 @RestController
 public class KnapsackTaskService implements KnapsackTask {
 
-  @Value("{$topic}")
+  @Value("${topic}")
   private String topic;
 
   @Autowired private TaskService taskService;

@@ -4,11 +4,7 @@ import java.time.Instant;
 
 import javax.persistence.Embeddable;
 
-/**
- * 
- * Data representation of timestamps used in task entity {@linkplain TaskEntity}.
- *
- */
+/** Data representation of timestamps used in task entity {@linkplain TaskEntity}. */
 @Embeddable
 public class TimestampsAssociation {
 

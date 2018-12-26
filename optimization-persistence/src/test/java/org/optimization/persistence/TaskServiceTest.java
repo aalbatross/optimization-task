@@ -3,6 +3,7 @@ package org.optimization.persistence;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.optimization.persistence.api.TaskService;
@@ -18,11 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testng.Assert;
 
-/**
- * 
- * Testing Data persistence for Task Services.
- *
- */
+/** Testing Data persistence for Task Services. */
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class TaskServiceTest {
@@ -88,53 +85,50 @@ public class TaskServiceTest {
     task3.setStatus(Status.COMPLETED);
     TaskEntity task4 = taskService.save(task3);
     Assert.assertEquals(task4.getStatus(), Status.COMPLETED);
-    
   }
-  
-  /**
-   * showTaskStatus test with
-   */
+
+  /** showTaskStatus test with */
   @Test
   public void showTaskStatusTest() {
     showTaskTest(Status.COMPLETED, 3);
-    showTaskTest(null, 2); 
+    showTaskTest(null, 2);
   }
-  
-  
-  private void showTaskTest(Status status,int count) {
+
+  private void showTaskTest(Status status, int count) {
     taskService.deleteAll();
-    for(int i =0;i<count;i++) {
-    TaskEntity task =
-        new TaskEntity.Builder()
-            .status(status)
-            .timestamps(new TimestampsAssociation.Builder().submitted(Instant.now()).build())
-            .problem(
-                new ProblemEntity.Builder()
-                    .capacity(30)
-                    .weights(
-                        new ArrayList<Integer>() {
-                          {
-                            add(1);
-                            add(2);
-                            add(3);
-                          }
-                        })
-                    .values(
-                        new ArrayList<Integer>() {
-                          {
-                            add(3);
-                            add(2);
-                            add(1);
-                          }
-                        })
-                    .build())
-            .build();
-   taskService.save(task);
+    for (int i = 0; i < count; i++) {
+      TaskEntity task =
+          new TaskEntity.Builder()
+              .status(status)
+              .timestamps(new TimestampsAssociation.Builder().submitted(Instant.now()).build())
+              .problem(
+                  new ProblemEntity.Builder()
+                      .capacity(30)
+                      .weights(
+                          new ArrayList<Integer>() {
+                            {
+                              add(1);
+                              add(2);
+                              add(3);
+                            }
+                          })
+                      .values(
+                          new ArrayList<Integer>() {
+                            {
+                              add(3);
+                              add(2);
+                              add(1);
+                            }
+                          })
+                      .build())
+              .build();
+      taskService.save(task);
     }
-    Page<TaskStatusObject> tsoPage= taskService.statusOfAllTasks(Pageable.unpaged());
-    tsoPage.forEach( tso -> {
-      Assert.assertEquals(tso.getStatus(), status);
-    });
-    Assert.assertEquals(tsoPage.stream().count(),count);
+    Page<TaskStatusObject> tsoPage = taskService.statusOfAllTasks(Pageable.unpaged());
+    tsoPage.forEach(
+        tso -> {
+          Assert.assertEquals(tso.getStatus(), status);
+        });
+    Assert.assertEquals(tsoPage.stream().count(), count);
   }
 }

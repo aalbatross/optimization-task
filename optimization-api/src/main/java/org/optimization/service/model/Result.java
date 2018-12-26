@@ -3,11 +3,7 @@ package org.optimization.service.model;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * 
- * Data structure defining Result of the Knapsack problem.
- *
- */
+/** Data structure defining Result of the Knapsack problem. */
 public class Result implements Serializable {
 
   /** */

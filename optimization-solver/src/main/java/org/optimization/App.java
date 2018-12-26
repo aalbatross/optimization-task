@@ -49,9 +49,6 @@ public class App implements CommandLineRunner {
   @Value("${value.deserializer}")
   private String valueDeserializer;
 
-  @Value("${retryOnFailure}")
-  private int retryOnFailure;
-
   private Properties kafkaProps() {
     Properties props = new Properties();
     props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -72,7 +69,9 @@ public class App implements CommandLineRunner {
   }
 
   /**
-   * executes the kafka message from the topic in buffer and executes solver {@linkplain KnapsackSolver} on each of them.
+   * executes the kafka message from the topic in buffer and executes solver {@linkplain
+   * KnapsackSolver} on each of them.
+   *
    * @param buffer
    */
   @Transactional
@@ -110,9 +109,7 @@ public class App implements CommandLineRunner {
         });
   }
 
-  /**
-   * Opens up Kafka consumer on a particular topic and batch them before executing.
-   */
+  /** Opens up Kafka consumer on a particular topic and batch them before executing. */
   @Override
   public void run(String... args) throws Exception {
     LOG.info("Properties: {}", kafkaProps());

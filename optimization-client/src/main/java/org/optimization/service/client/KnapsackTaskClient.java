@@ -12,11 +12,7 @@ import org.optimization.service.model.Problem;
 import org.optimization.service.model.Solution;
 import org.optimization.service.model.Task;
 
-/**
- * 
- * Webclient for invoking Call to Task related services of KO Service.
- *
- */
+/** Webclient for invoking Call to Task related services of KO Service. */
 public class KnapsackTaskClient implements KnapsackTask {
 
   private final Client client;

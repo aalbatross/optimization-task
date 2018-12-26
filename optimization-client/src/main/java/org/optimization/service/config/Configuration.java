@@ -5,11 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * 
- * Client Configuration class loading application properties for base url.
- *
- */
+/** Client Configuration class loading application properties for base url. */
 public class Configuration {
 
   private static final String BASE_URL_PATH = "base.url.path";

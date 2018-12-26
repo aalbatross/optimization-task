@@ -1,4 +1,2 @@
-/**
- * Data access repository.
- */
+/** Data access repository. */
 package org.optimization.persistence.api;

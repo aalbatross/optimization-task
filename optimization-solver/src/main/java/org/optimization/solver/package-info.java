@@ -1,4 +1,2 @@
-/**
- * Knapsack Optimiser Solver.
- */
+/** Knapsack Optimiser Solver. */
 package org.optimization.solver;

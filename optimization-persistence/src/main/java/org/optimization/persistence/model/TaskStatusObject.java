@@ -3,9 +3,7 @@ package org.optimization.persistence.model;
 import org.optimization.persistence.model.TaskEntity.Status;
 
 /**
- * 
  * Data access object representing the projection of task and status from {@linkplain TaskEntity}.
- *
  */
 public class TaskStatusObject {
   private String task;

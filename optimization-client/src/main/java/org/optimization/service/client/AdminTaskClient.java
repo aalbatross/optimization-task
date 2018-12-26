@@ -11,11 +11,7 @@ import org.optimization.service.model.Tasks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * 
- * Webclient for invoking Call to Admin related tasks of KO Service.
- *
- */
+/** Webclient for invoking Call to Admin related tasks of KO Service. */
 public class AdminTaskClient implements AdminTask {
 
   private static final Logger LOG = LoggerFactory.getLogger(AdminTaskClient.class);
