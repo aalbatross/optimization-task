@@ -37,6 +37,7 @@ services:
       - kafka
   networks:
       - webnet
+  restart: on-failure
   deploy:
       replicas: 2
       resources:

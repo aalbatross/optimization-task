@@ -6,7 +6,11 @@ import org.optimization.service.exception.TaskNotFoundException;
 import org.optimization.service.model.Task;
 import org.optimization.service.model.Task.Status;
 import org.optimization.service.model.Tasks;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 /** Definition of Admin related task for Knapsack Optimiser Service. */
 @RestController
-public class AdminTaskService implements AdminTask {
+public class AdminTaskService implements AdminTask, ApplicationContextAware {
+
+  private ApplicationContext context = null;
 
   @Autowired private TaskService taskService;
 
@@ -26,7 +32,9 @@ public class AdminTaskService implements AdminTask {
   }
 
   @RequestMapping("/knapsack/admin/shutdown")
-  public void shutdown() {}
+  public void shutdown() {
+    ((ConfigurableApplicationContext) context).close();
+  }
 
   private Tasks taskStatus(Page<TaskStatusObject> taskStatuses) {
     Tasks tasks = new Tasks();
@@ -51,5 +59,10 @@ public class AdminTaskService implements AdminTask {
   @RequestMapping(path = "/knapsack/admin/tasks/", method = RequestMethod.DELETE)
   public void deleteAllTask() {
     taskService.deleteAll();
+  }
+
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.context = applicationContext;
   }
 }
