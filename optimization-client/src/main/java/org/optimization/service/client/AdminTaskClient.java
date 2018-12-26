@@ -1,10 +1,14 @@
 package org.optimization.service.client;
 
+import java.util.Optional;
+import java.util.function.Supplier;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.optimization.service.AdminTask;
 import org.optimization.service.config.Configuration;
 import org.optimization.service.model.Tasks;
@@ -15,12 +19,22 @@ import org.slf4j.LoggerFactory;
 public class AdminTaskClient implements AdminTask {
 
   private static final Logger LOG = LoggerFactory.getLogger(AdminTaskClient.class);
-
+  private static final Supplier<IllegalArgumentException> exc =
+      () -> new IllegalArgumentException("Needs admin username and password to use this client");
   private final Client client;
   private final WebTarget target;
 
   public AdminTaskClient(Configuration configuration) {
-    client = ClientBuilder.newClient();
+    String adminUser =
+        (String)
+            Optional.ofNullable(configuration.properties().get(Configuration.ADMIN_USERNAME))
+                .orElseThrow(exc);
+    String adminPass =
+        (String)
+            Optional.ofNullable(configuration.properties().get(Configuration.ADMIN_PASSWORD))
+                .orElseThrow(exc);
+    HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(adminUser, adminPass);
+    client = ClientBuilder.newClient().register(feature);
     target = client.target(configuration.baseURL());
   }
 

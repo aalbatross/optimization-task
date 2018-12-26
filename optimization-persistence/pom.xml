@@ -17,6 +17,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<springboot.version>2.1.1.RELEASE</springboot.version>
 		<h2.version>1.4.196</h2.version>
+		<maven.surefire.plugin>3.0.0-M3</maven.surefire.plugin>
 	</properties>
 
 	<build>
@@ -25,6 +26,18 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${springboot.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.plugin}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>${maven.surefire.plugin}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

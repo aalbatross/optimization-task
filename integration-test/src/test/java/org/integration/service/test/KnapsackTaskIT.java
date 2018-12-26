@@ -2,11 +2,13 @@ package org.integration.service.test;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.optimization.service.model.Problem;
 import org.optimization.service.model.Solution;
 import org.optimization.service.model.Task;
@@ -26,10 +28,9 @@ public class KnapsackTaskIT {
   private static Client unauthorisedClient() {
     return ClientBuilder.newClient();
   }
-  
+
   private String existingTask;
   private String wrongTask = "zksndjks";
-  
 
   @Test
   public void testCreateTask() {
@@ -54,8 +55,8 @@ public class KnapsackTaskIT {
     Assert.assertEquals(task.getStatus(), Status.SUBMITTED);
     Assert.assertTrue(task.getTimestamps().getSubmitted() != null);
   }
-  
-  @Test(dependsOnMethods="testCreateTask")
+
+  @Test(dependsOnMethods = "testCreateTask")
   public void testStatusCorrect() {
     Task statusTask =
         AdminTaskIT.getTarget(unauthorisedClient())
@@ -70,18 +71,18 @@ public class KnapsackTaskIT {
     Assert.assertTrue(statusTask.getStatus() != null);
     Assert.assertTrue(statusTask.getTimestamps().getSubmitted() != null);
   }
-  
-  @Test(dependsOnMethods="testCreateTask")
+
+  @Test(dependsOnMethods = "testCreateTask")
   public void testSolutionCorrect() throws InterruptedException {
-    
+
     Task statusTask =
         AdminTaskIT.getTarget(unauthorisedClient())
             .path(STATUS)
             .path(existingTask)
             .request()
             .get(Task.class);
-    
-    while(statusTask.getStatus() != Status.COMPLETED) {
+
+    while (statusTask.getStatus() != Status.COMPLETED) {
       TimeUnit.SECONDS.sleep(2);
       statusTask =
           AdminTaskIT.getTarget(unauthorisedClient())
@@ -89,11 +90,9 @@ public class KnapsackTaskIT {
               .path(existingTask)
               .request()
               .get(Task.class);
-      LOG.info(
-          "checking status and waiting to get completed {}",
-          statusTask);
+      LOG.info("checking status and waiting to get completed {}", statusTask);
     }
-    
+
     Solution solution =
         AdminTaskIT.getTarget(unauthorisedClient())
             .path(SOLUTION)
@@ -112,28 +111,20 @@ public class KnapsackTaskIT {
     Assert.assertTrue(solution.getSolution() != null);
     Assert.assertEquals(solution.getSolution().getItems(), Arrays.asList(0, 1));
     Assert.assertTrue(solution.getSolution().getTime() != null);
-    
   }
-  
+
   @Test
   public void testStatusWrong() {
     Response solution =
-        AdminTaskIT.getTarget(unauthorisedClient())
-        .path(SOLUTION)
-        .path(wrongTask)
-        .request()
-        .get();
-   Assert.assertEquals(solution.getStatus(), 404);
+        AdminTaskIT.getTarget(unauthorisedClient()).path(SOLUTION).path(wrongTask).request().get();
+    Assert.assertEquals(solution.getStatus(), 404);
   }
-  
+
   @Test
   public void testSolutionWrong() {
     Response statusTask =
-        AdminTaskIT.getTarget(unauthorisedClient())
-            .path(STATUS)
-            .path(wrongTask)
-            .request().get();
-   Assert.assertEquals(statusTask.getStatus(), 404);
+        AdminTaskIT.getTarget(unauthorisedClient()).path(STATUS).path(wrongTask).request().get();
+    Assert.assertEquals(statusTask.getStatus(), 404);
   }
 
   @Test

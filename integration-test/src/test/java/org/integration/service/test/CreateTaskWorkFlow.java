@@ -17,11 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-/**
- * 
- * Normal Workflow to create task -> view status and lastly see the solution.
- *
- */
+/** Normal Workflow to create task -> view status and lastly see the solution. */
 public class CreateTaskWorkFlow {
 
   private static final String STATUS = "/knapsack/tasks/";
@@ -104,6 +100,5 @@ public class CreateTaskWorkFlow {
     Assert.assertTrue(solution.getSolution() != null);
     Assert.assertEquals(solution.getSolution().getItems(), Arrays.asList(0, 1));
     Assert.assertTrue(solution.getSolution().getTime() != null);
-    
   }
 }
