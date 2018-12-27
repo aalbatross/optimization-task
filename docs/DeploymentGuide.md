@@ -9,27 +9,37 @@ The doc assumes that we already have a docker swarm cluster installed.
 docker-compose-prod.yml uses 2 replicas each of service and solver. It also has 1 node each for database and kafka. This script can be a starting point to deploy bigger sized application.
 ###  Starting docker swarm
 
+```
 docker swarm init
+```
 
 ###  Deploying the docker service on the swarm
 
+```
 docker stack deploy -c docker-compose-prod.yml KOService
+```
 
 ###  Checking the service
 
+```
 docker service ls
+```
 
 ![Service](servicels.png)
 
 You can view containers running (Note: this will show your local containers only)
 
+```
 docker ps
+```
 
 ###  Viewing the aggregated logs of task in the service
 
 Aggregate logs of defined service tasks
 
+```
 docker service logs --follow KOService_taskservice
+```
 
 ![Logs](log.png)
 

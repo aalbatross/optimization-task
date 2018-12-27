@@ -1,20 +1,3 @@
-Your delivery should:
-
-* include a concise description of the design (architecture) of your solution
-* include justifications for you choices (especially if you've taken any shortcuts)
-* include complete code needed to execute the solution
-* include tests
-* include a concise instruction on how to test, start and use the solution
-* start your solution as a service on a local machine using Docker or Kubernetes
-* provide a REST API with endpoints to submit optimization tasks asynchnronously (especially important for larger problems that may take substantial time to compute), checking the status of a specific task (submitted, running, completed), and retrieving the solution of a complete task
-* your solution must be containerized (i.e. it should be executable through Docker. If you have multiple containers you can orchestrate them with either docker-compose or Kubernetes)
-* processes in your containers should handle SIGTERM, so that the container exits cleanly
-* interact with your solution through the HTTP-based REST API
-
-There should be no requirement to install anything on the host other than what is needed to provide an environment for executing containers (e.g., docker / kubernetes).
-We would prefer that you use one of the following languages: Python, Java, Golang, Elixir (if you want to use another language, please justify your choice)
-
-
 # Knapsack Optimizer Service
 
 ## Design
