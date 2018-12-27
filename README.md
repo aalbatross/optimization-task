@@ -5,6 +5,7 @@ Quick start the deployment
 ```
 docker-compose -f docker-compose-prod.yml up
 ```
+Service is available at http://localhost:8080/.
 
 Use docs/GettingStarted.md to start exploring the webservice interface.
 
