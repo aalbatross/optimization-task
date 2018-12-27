@@ -1,0 +1,67 @@
+version: "3.3"
+
+services:
+ kafka:
+    image: aalbatross/kafka-single:1.0
+    ports:
+      - "9092:9092"
+      - "2181:2181"
+    command: /bin/bash /kafka/kafka_2.11-2.0.0/exec.sh
+    networks:
+      - webnet
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        
+ db:
+    image: postgres:10.6
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+      - "5432:5432"
+    networks:
+      - webnet
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+ taskservice:
+  image: aalbatross/optimization-service:0.0.1
+  ports:
+   - "8080:8080"
+  depends_on:
+      - db
+      - kafka
+  networks:
+      - webnet
+  restart: on-failure
+  deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.8"
+          memory: 1500M
+      restart_policy:
+        condition: on-failure
+  
+ tasksolver:
+   image: aalbatross/optimization-solver:0.0.1
+   depends_on:
+      - db
+      - kafka
+   networks:
+      - webnet
+   restart: on-failure
+   deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.8"
+          memory: 1500M
+      restart_policy:
+        condition: on-failure
+
+networks:
+  webnet:
