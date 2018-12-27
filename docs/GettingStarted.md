@@ -16,7 +16,7 @@ The deployment was tested on
 cd to optimization-task directory
 
 ```
-docker-compose up
+docker-compose -f docker-compose-prod.yml up
 ```
 
 ## User Guide
