@@ -11,8 +11,10 @@ public interface AdminTask {
    * @return tasks.
    */
   Tasks showAllTasks();
+
   /** shutting down the service. */
   void shutdown();
+
   /**
    * delete task with provided id.
    *
@@ -21,6 +23,9 @@ public interface AdminTask {
    */
   String deleteTask(String id);
 
-  /** delete all tasks and there metadata. */
+  /**
+   * delete all tasks metadata, but it does'nt remove it from queue, so after execution task may be
+   * shown again, use with caution.
+   */
   void deleteAllTask();
 }

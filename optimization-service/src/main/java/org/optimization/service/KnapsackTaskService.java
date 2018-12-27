@@ -95,9 +95,10 @@ public class KnapsackTaskService implements KnapsackTask {
             .build();
     TaskEntity task = new TaskEntity.Builder().problem(pb).build();
     task = taskService.save(task);
-
+    LOG.info("Knapsack problem arrived {}, creating task {}", problem, task.getId());
     try {
       template.send(topic, task.getId()).get(2, TimeUnit.SECONDS);
+      LOG.info("taskId {}, send to message bus {}", task.getId(), topic);
     } catch (InterruptedException | ExecutionException | TimeoutException e) {
       throw new SubmitFailedException(e.getMessage());
     }
@@ -105,6 +106,7 @@ public class KnapsackTaskService implements KnapsackTask {
     task.setTimestamps(
         new TimestampsAssociation.Builder().submitted(Instant.now().getEpochSecond()).build());
     task = taskService.save(task);
+    LOG.info("task {} marked submitted.", task.getId());
     Timestamps ts =
         Optional.ofNullable(task.getTimestamps())
             .map(
